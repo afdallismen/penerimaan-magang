@@ -1,7 +1,7 @@
 import { Table, Button, Space } from 'antd';
 import { PlusOutlined, FilePdfOutlined, EditOutlined, ExportOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, router, Link } from '@inertiajs/react';
 
 const Permohonan = ({ auth, permohonans }) => {
   const columnPermohonan = [
@@ -12,7 +12,7 @@ const Permohonan = ({ auth, permohonans }) => {
         <Button
           type="link"
           size="small"
-          href={name}
+          onClick={() => router.get(name)}
           style={{ padding: 0 }}
         >
           {name}
@@ -35,17 +35,17 @@ const Permohonan = ({ auth, permohonans }) => {
         <Space>
           <Button
             shape="circle"
-            href={route('permohonan.show', { permohonan: id })}
+            onClick={() => router.get(route('permohonan.show', { permohonan: id }))}
             icon={<ExportOutlined />}
           />
           <Button
             shape="circle"
-            href={route('permohonan.edit', { permohonan: id })}
+            onClick={() => router.get(route('permohonan.edit', { permohonan: id }))}
             icon={<EditOutlined />}
           />
           <Button
             shape="circle"
-            href={route('permohonan.delete', { permohonan: id })}
+            onClick={() => router.get(route('permohonan.delete', { permohonan: id }))}
             icon={<DeleteOutlined />}
           />
           <Button
@@ -77,7 +77,7 @@ const Permohonan = ({ auth, permohonans }) => {
               type="primary"
               size="small"
               icon={<PlusOutlined />}
-              href={route('permohonan.new')}
+              onClick={() => router.get(route('permohonan.new'))}
             >
               Tambah Permohonan
             </Button>

@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { SwapLeftOutlined, CheckOutlined, MinusOutlined } from '@ant-design/icons';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { Descriptions, Space, Button } from 'antd';
 
 const dateFormat = {
@@ -30,7 +30,7 @@ const PenempatanShow = ({ auth, penempatan }) => {
                 extra={
                   <Button
                     type="link"
-                    href={route('penempatan.index')}
+                    onClick={() => router.get(route('penempatan.index'))}
                     size="small"
                     icon={<SwapLeftOutlined />}
                   >

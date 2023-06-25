@@ -1,26 +1,14 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, router, useForm } from '@inertiajs/react';
 import { Form, Button, Select, Switch, Upload } from 'antd';
 import { SwapLeftOutlined, UploadOutlined } from '@ant-design/icons';
 
 const BalasanPermohonanEdit = ({ auth, balasanPermohonan, penempatanChoices, authorChoices, accedByChoices, csrf  }) => {
-  console.log({
-    penempatanChoices,
-    authorChoices,
-    accedByChoices,
-  });
   const [form] = Form.useForm();
+  const balasanPermohonanForm = useForm(balasanPermohonan);
 
-  const handleFormFinish = async (values) => {
-    try {
-      await axios.post(route('balasan-permohonan.update', { balasanPermohonan: balasanPermohonan.id }), {
-        ...values,
-        filepath_surat: values.file ? values.file.file.response : values.filepath_surat
-      }, { headers: { 'X-CSRF-TOKEN': csrf }, withCredentials: true });
-      window.location.href = '/balasan-permohonan';
-    } catch (error) {
-      console.error(error);
-    }
+  const handleFormFinish = async () => {
+    balasanPermohonanForm.post(route('balasan-permohonan.update', { balasanPermohonan: balasanPermohonan.id }));
   };
 
   return (
@@ -36,7 +24,7 @@ const BalasanPermohonanEdit = ({ auth, balasanPermohonan, penempatanChoices, aut
             <div className="flex flex-row justify-end">
               <Button
                 type="link"
-                href={route('balasan-permohonan.index')}
+                onClick={() => router.get(route('balasan-permohonan.index'))}
                 size="small"
                 icon={<SwapLeftOutlined />}
               >
@@ -49,48 +37,70 @@ const BalasanPermohonanEdit = ({ auth, balasanPermohonan, penempatanChoices, aut
               className="w-96"
               initialValues={balasanPermohonan}
               onFinish={handleFormFinish}
+              requiredMark
             >
               <Form.Item
                 label="Penempatan"
                 name="penempatan_id"
+                rules={[{ required: true }]}
+                validateStatus={balasanPermohonanForm.errors.penempatan_id ? 'error' : ''}
+                help={balasanPermohonanForm.errors.penempatan_id}
               >
                 <Select
                   options={penempatanChoices.map(({ id }) => ({ value: id, label: `Penempatan ${id}` }))}
+                  onChange={(value) => balasanPermohonanForm.setData('penempatan_id', value)}
+                  required
                 />
               </Form.Item>
               <Form.Item
                 label="Acc"
                 name="acc"
+                rules={[{ required: true }]}
+                validateStatus={balasanPermohonanForm.errors.acc ? 'error' : ''}
+                help={balasanPermohonanForm.errors.acc}
               >
-                <Switch defaultChecked={!!balasanPermohonan.acc}/>
+                <Switch
+                  defaultChecked={!!balasanPermohonan.acc}
+                  onChange={(checked) => balasanPermohonanForm.setData('acc', checked)}
+                />
               </Form.Item>
               <Form.Item
                 label="Dibuat oleh"
                 name="author_id"
+                rules={[{ required: true }]}
+                validateStatus={balasanPermohonanForm.errors.author_id ? 'error' : ''}
+                help={balasanPermohonanForm.errors.author_id}
               >
                 <Select
                   options={authorChoices.map(({ id, name }) => ({ value: id, label: name }))}
+                  onChange={(value) => balasanPermohonanForm.setData('author_id', value)}
+                  required
                 />
               </Form.Item>
               <Form.Item
                 label="Diacc oleh"
                 name="acced_by_id"
+                rules={[{ required: true }]}
+                validateStatus={balasanPermohonanForm.errors.acced_by_id ? 'error' : ''}
+                help={balasanPermohonanForm.errors.acced_by_id}
               >
                 <Select
                   options={accedByChoices.map(({ id, name }) => ({ value: id, label: name }))}
+                  onChange={(value) => balasanPermohonanForm.setData('acced_by_id', value)}
+                  required
                 />
               </Form.Item>
               <Form.Item
                 label="Surat Balasan Permohonan"
                 name="filepath_surat"
+                validateStatus={balasanPermohonanForm.errors.filepath_surat ? 'error' : ''}
+                help={balasanPermohonanForm.errors.filepath_surat}
               >
                 <Upload
                   maxCount={1}
                   name="file"
                   action={route('balasan-permohonan.upload')}
-                  headers={{
-                    'X-CSRF-TOKEN': csrf
-                  }}
+                  onChange={({ file }) => balasanPermohonanForm.setData('filepath_surat', file?.response || null)}
                   defaultFileList={balasanPermohonan.filepath_surat && [
                     {
                       name: balasanPermohonan.filepath_surat.split('/').reverse()[0],

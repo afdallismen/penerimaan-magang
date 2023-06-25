@@ -11,6 +11,7 @@ use App\Http\Requests\UpdatePenempatanRequest;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 
 class PenempatanController extends Controller
 {
@@ -124,7 +125,7 @@ class PenempatanController extends Controller
             ])
             ->get()
             ->toArray();
-        $pdf = PDF::loadView('report_penempatan', $penempatans);
+        $pdf = SnappyPdf::loadView('report_penempatan', ['penempatans' => $penempatans]);
         return $pdf->download('laporan_penempatan_'.time().'.pdf');
         // return view('report_penempatan', ['penempatans' => $penempatans]);
     }

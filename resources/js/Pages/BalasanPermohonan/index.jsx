@@ -1,7 +1,7 @@
 import { Table, Button, Space } from 'antd';
 import { DownloadOutlined, PlusOutlined, EditOutlined, ExportOutlined, DeleteOutlined, FilePdfOutlined, CheckOutlined, MinusOutlined } from '@ant-design/icons';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 
 const BalasanPermohonan = ({ auth, balasanPermohonans }) => {
   const columnBalasanPermohonan = [
@@ -12,7 +12,7 @@ const BalasanPermohonan = ({ auth, balasanPermohonans }) => {
         <Button
           type="link"
           size="small"
-          href={route('penempatan.show', { penempatan: penempatan_id })}
+          onClick={() => router.get(route('penempatan.show', { penempatan: penempatan_id }))}
           style={{
             padding: 0
           }}
@@ -35,7 +35,7 @@ const BalasanPermohonan = ({ auth, balasanPermohonans }) => {
         <Button
           type="link"
           size="small"
-          href={author}
+          onClick={() => router.get(author)}
           style={{
             padding: 0
           }}
@@ -51,7 +51,7 @@ const BalasanPermohonan = ({ auth, balasanPermohonans }) => {
         <Button
           type="link"
           size="small"
-          href={acc}
+          onClick={() => router.get(acc)}
           style={{
             padding: 0
           }}
@@ -68,17 +68,17 @@ const BalasanPermohonan = ({ auth, balasanPermohonans }) => {
         <Space>
           <Button
             shape="circle"
-            href={route('balasan-permohonan.show', { balasanPermohonan: id })}
+            onClick={() => router.get(route('balasan-permohonan.show', { balasanPermohonan: id }))}
             icon={<ExportOutlined />}
           />
           <Button
             shape="circle"
-            href={route('balasan-permohonan.edit', { balasanPermohonan: id })}
+            onClick={() => router.get(route('balasan-permohonan.edit', { balasanPermohonan: id }))}
             icon={<EditOutlined />}
           />
           <Button
             shape="circle"
-            href={route('balasan-permohonan.delete', { balasanPermohonan: id })}
+            onClick={() => router.get(route('balasan-permohonan.delete', { balasanPermohonan: id }))}
             icon={<DeleteOutlined />}
           />
           <Button

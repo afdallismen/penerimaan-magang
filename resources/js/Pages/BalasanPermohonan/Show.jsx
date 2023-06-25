@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { CheckOutlined, MinusOutlined, SwapLeftOutlined } from '@ant-design/icons';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { Descriptions, Space, Button } from 'antd';
 
 const dateFormat = {
@@ -30,7 +30,7 @@ const BalasanPermohonanShow = ({ auth, balasanPermohonan }) => {
                 extra={
                   <Button
                     type="link"
-                    href={route('balasan-permohonan.index')}
+                    onClick={() => router.get(route('balasan-permohonan.index'))}
                     size="small"
                     icon={<SwapLeftOutlined />}
                   >

@@ -63,7 +63,7 @@
                         {{ $permohonan['jurusan'] }}
                     </td>
                     <td class="border border-black text-center">
-                        <a href="{{ $permohonan['filepath_surat'] }}">Link Download</a>
+                        <a href="http://localhost:8000{{ $permohonan['filepath_surat'] }}">Link Download</a>
                     </td>
                 </tr>
             @endforeach

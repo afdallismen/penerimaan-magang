@@ -46,6 +46,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::post('/permohonan/upload', [PermohonanController::class, 'upload'])->name('permohonan.upload');
+Route::post('/balasan-permohonan/upload', [BalasanPermohonanController::class, 'upload'])->name('balasan-permohonan.upload');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -72,7 +73,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/balasan-permohonan', [BalasanPermohonanController::class, 'index'])->name('balasan-permohonan.index');
     Route::get('/balasan-permohonan/report', [BalasanPermohonanController::class, 'report'])->name('balasan-permohonan.report');
-    Route::post('/balasan-permohonan/upload', [BalasanPermohonanController::class, 'upload'])->name('balasan-permohonan.upload');
     Route::get('/balasan-permohonan/new', [BalasanPermohonanController::class, 'create'])->name('balasan-permohonan.new');
     Route::post('/balasan-permohonan/new', [BalasanPermohonanController::class, 'store'])->name('balasan-permohonan.store');
     Route::get('/balasan-permohonan/{balasanPermohonan}', [BalasanPermohonanController::class, 'show'])->name('balasan-permohonan.show');

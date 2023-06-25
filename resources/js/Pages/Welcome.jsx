@@ -1,32 +1,30 @@
 import { useState } from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { Layout, Row, Col, Typography, Space, Image, Input, Form, Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import axios from 'axios';
 
 export default function Welcome({ auth }) {
   const [form] = Form.useForm();
+  const loginForm = useForm({
+    email: '',
+    password: '',
+  });
+  const registerForm = useForm({
+    name: '',
+    email: '',
+    password: '',
+    universitas: '',
+    jurusam: '',
+    filepath_surat: undefined
+  });
   const [authType, setAuthType] = useState('login');
 
   const handleSubmitLogin = async (values) => {
-    try {
-      await axios.post('/login', values);
-      window.location.href = '/dashboard';
-    } catch (error) {
-      console.error(error);
-    }
+    loginForm.post(route('login'));
   };
 
   const handleSubmitRegister = async (values) => {
-    try {
-      await axios.post('/register', {
-        ...values,
-        filepath_surat: values.file ? values.file.file.response : undefined,
-      });
-      window.location.href = '/dashboard';
-    } catch (error) {
-      console.error(error);
-    }
+    registerForm.post(route('register'));
   };
 
   const handleClickSecondButton = () => {
@@ -93,44 +91,58 @@ export default function Welcome({ auth }) {
             </Space>
           ) : (
             authType === 'login' ?
-              <Form
-                layout="vertical"
-                form={form}
-                labelCol={{ span: 4 }}
-                wrapperCol={{ span: 10 }}
-                onFinish={handleSubmitLogin}
-              >
-                <Form.Item
-                  label="Email"
-                  name="email"
-                  style={{ marginBottom: 8 }}
+              <>
+                {!!Object.values(loginForm.errors).length && <Typography.Text type="danger">Email atau password salah!</Typography.Text>}
+                <Form
+                  layout="vertical"
+                  form={form}
+                  labelCol={{ span: 10 }}
+                  wrapperCol={{ span: 10 }}
+                  onFinish={handleSubmitLogin}
+                  requiredMark
                 >
-                  <Input type="email" />
-                </Form.Item>
-                <Form.Item
-                  label="Password"
-                  name="password"
-                  style={{ marginBottom: 16 }}
-                >
-                  <Input type="password"/>
-                </Form.Item>
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    style={{ marginRight: 12 }}
+                  <Form.Item
+                    label="Email"
+                    name="email"
+                    style={{ marginBottom: 8 }}
+                    rules={[{ required: true }]}
                   >
-                    Masuk
-                  </Button>
-                  <Button
-                    type="primary"
-                    onClick={handleClickSecondButton}
-                    danger
+                    <Input
+                      type="email"
+                      onChange={(e) => loginForm.setData('email', e.target.value)}
+                      required
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="Password"
+                    name="password"
+                    style={{ marginBottom: 16 }}
+                    rules={[{ required: true }]}
                   >
-                    Daftar Magang
-                  </Button>
-                </Form.Item>
-              </Form>
+                    <Input
+                      type="password"
+                      onChange={(e) => loginForm.setData('password', e.target.value)}
+                      required
+                    />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      style={{ marginRight: 12 }}
+                    >
+                      Masuk
+                    </Button>
+                    <Button
+                      type="primary"
+                      onClick={handleClickSecondButton}
+                      danger
+                    >
+                      Daftar Magang
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </>
               :
               <Form
                 layout="horizontal"
@@ -138,51 +150,89 @@ export default function Welcome({ auth }) {
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 10 }}
                 onFinish={handleSubmitRegister}
+                requiredMark
               >
                 <Form.Item
                   label="Nama"
                   name="name"
                   style={{ marginBottom: 8 }}
+                  rules={[{ required: true }]}
+                  validateStatus={registerForm.errors.name ? 'error' : ''}
+                  help={registerForm.errors.name}
                 >
-                  <Input />
+                  <Input
+                    onChange={(e) => registerForm.setData('name', e.target.value)}
+                    required
+                  />
                 </Form.Item>
                 <Form.Item
                   label="Email"
                   name="email"
                   style={{ marginBottom: 8 }}
+                  rules={[{ required: true }]}
+                  validateStatus={registerForm.errors.email ? 'error' : ''}
+                  help={registerForm.errors.email}
                 >
-                  <Input type="email" />
+                  <Input
+                    type="email"
+                    onChange={(e) => registerForm.setData('email', e.target.value)}
+                    required
+                  />
                 </Form.Item>
                 <Form.Item
                   label="Password"
                   name="password"
                   style={{ marginBottom: 8 }}
+                  rules={[{ required: true }]}
+                  validateStatus={registerForm.errors.password ? 'error' : ''}
+                  help={registerForm.errors.password}
                 >
-                  <Input type="password"/>
+                  <Input
+                    type="password"
+                    onChange={(e) => registerForm.setData('password', e.target.value)}
+                    required
+                  />
                 </Form.Item>
                 <Form.Item
                   label="Universitas"
                   name="universitas"
                   style={{ marginBottom: 8 }}
+                  rules={[{ required: true }]}
+                  validateStatus={registerForm.errors.universitas ? 'error' : ''}
+                  help={registerForm.errors.universitas}
                 >
-                  <Input />
+                  <Input
+                    onChange={(e) => registerForm.setData('universitas', e.target.value)}
+                    required
+                  />
                 </Form.Item>
                 <Form.Item
                   label="Jurusan"
                   name="jurusan"
                   style={{ marginBottom: 8 }}
+                  rules={[{ required: true }]}
+                  validateStatus={registerForm.errors.jurusan ? 'error' : ''}
+                  help={registerForm.errors.jurusan}
                 >
-                  <Input />
+                  <Input
+                    onChange={(e) => registerForm.setData('jurusan', e.target.value)}
+                    required
+                  />
                 </Form.Item>
                 <Form.Item
                   label="Surat Permohonan"
                   name="file"
                   style={{ marginBottom: 16 }}
+                  rules={[{ required: true }]}
+                  validateStatus={registerForm.errors.filepath_surat ? 'error' : ''}
+                  help={registerForm.errors.filepath_surat}
                 >
                   <Upload
                     maxCount={1}
                     name="file"
                     action={route('permohonan.upload')}
+                    onChange={({ file }) => registerForm.setData('filepath_surat', file?.response || undefined)}
+                    required
                   >
                     <Button icon={<UploadOutlined />}>Click to Upload</Button>
                   </Upload>

@@ -1,22 +1,14 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, router, useForm } from '@inertiajs/react';
 import { Form, Input, Button, Select, Upload } from 'antd';
 import { SwapLeftOutlined, UploadOutlined } from '@ant-design/icons';
-import axios from 'axios';
 
-const PermohonanEdit = ({ auth, permohonan, pemohonChoices, csrf }) => {
+const PermohonanEdit = ({ auth, permohonan, pemohonChoices }) => {
   const [form] = Form.useForm();
+  const permohonanForm = useForm(permohonan);
 
-  const handleFormFinish = async (values) => {
-    try {
-      await axios.post(route('permohonan.update', { permohonan: permohonan.id }), {
-        ...values,
-        filepath_surat: values.file ? values.file.file.response : values.filepath_surat
-      }, { headers: { 'X-CSRF-TOKEN': csrf }, withCredentials: true });
-      window.location.href = '/permohonan';
-    } catch (error) {
-      console.error(error);
-    }
+  const handleFormFinish = async () => {
+    permohonanForm.post(route('permohonan.update', { permohonan: permohonan.id }));
   };
 
   return (
@@ -32,10 +24,9 @@ const PermohonanEdit = ({ auth, permohonan, pemohonChoices, csrf }) => {
             <div className="flex flex-row justify-end">
               <Button
                 type="link"
-                href={route('permohonan.index')}
+                onClick={() => router.get(route('permohonan.index'))}
                 size="small"
                 icon={<SwapLeftOutlined />}
-                onFinish={handleFormFinish}
               >
                 Kembali
               </Button>
@@ -46,38 +37,56 @@ const PermohonanEdit = ({ auth, permohonan, pemohonChoices, csrf }) => {
               className="w-96"
               initialValues={permohonan}
               onFinish={handleFormFinish}
+              requiredMark
             >
               <Form.Item
                 label="Pemohon"
                 name="pemohon_id"
+                rules={[{ required: true }]}
+                validateStatus={permohonanForm.errors.pemohon_id ? 'error' : ''}
+                help={permohonanForm.errors.pemohon_id}
               >
                 <Select
                   options={pemohonChoices.map(({ id, name }) => ({ value: id, label: name }))}
+                  onChange={(value) => permohonanForm.setData('pemohon_id', value)}
+                  required
                 />
               </Form.Item>
               <Form.Item
                 label="Universitas"
                 name="universitas"
+                rules={[{ required: true }]}
+                validateStatus={permohonanForm.errors.universitas ? 'error' : ''}
+                help={permohonanForm.errors.universitas}
               >
-                <Input />
+                <Input
+                  onChange={(e) => permohonanForm.setData('universitas', e.target.value)}
+                  required
+                />
               </Form.Item>
               <Form.Item
                 label="Jurusan"
                 name="jurusan"
+                rules={[{ required: true }]}
+                validateStatus={permohonanForm.errors.jurusan ? 'error' : ''}
+                help={permohonanForm.errors.jurusan}
               >
-                <Input />
+                <Input
+                  onChange={(e) => permohonanForm.setData('jurusan', e.target.value)}
+                  required
+                />
               </Form.Item>
               <Form.Item
                 label="Surat Permohonan"
                 name="file"
+                validateStatus={permohonanForm.errors.filepath_surat ? 'error' : ''}
+                help={permohonanForm.errors.filepath_surat}
               >
                 <Upload
                   maxCount={1}
                   name="file"
                   action={route('permohonan.upload')}
-                  headers={{
-                    'X-CSRF-TOKEN': csrf
-                  }}
+                  onChange={({ file }) => permohonanForm.setData('filepath_surat', file?.response || null)}
                   defaultFileList={permohonan.filepath_surat && [
                     {
                       name: permohonan.filepath_surat.split('/').reverse()[0],

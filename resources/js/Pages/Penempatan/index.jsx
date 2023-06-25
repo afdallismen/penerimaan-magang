@@ -1,7 +1,7 @@
 import { Table, Button, Space } from 'antd';
-import { PlusOutlined, EditOutlined, ExportOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, ExportOutlined, DeleteOutlined, DownloadOutlined, CheckOutlined, MinusOutlined } from '@ant-design/icons';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 
 const dateFormat = {
   day: 'numeric',
@@ -18,7 +18,7 @@ const Penempatan = ({ auth, penempatans }) => {
         <Button
           type="link"
           size="small"
-          href={route('permohonan.show', { permohonan: permohonan_id })}
+          onClick={() => router.get(route('permohonan.show', { permohonan: permohonan_id }))}
           style={{
             padding: 0
           }}
@@ -42,13 +42,20 @@ const Penempatan = ({ auth, penempatans }) => {
       render: (tanggal) => new Intl.DateTimeFormat('id', dateFormat).format(new Date(tanggal)),
     },
     {
+      title: 'Acc',
+      dataIndex: 'acc',
+      render: (acc) => acc
+        ? <CheckOutlined />
+        : <MinusOutlined />
+    },
+    {
       title: 'Dibuat oleh',
       dataIndex: ['author', 'name'],
       render: (author) => (
         <Button
           type="link"
           size="small"
-          href={author}
+          onClick={() => router.get(author)}
           style={{
             padding: 0
           }}
@@ -64,7 +71,7 @@ const Penempatan = ({ auth, penempatans }) => {
         <Button
           type="link"
           size="small"
-          href={acc}
+          onClick={() => router.get(acc)}
           style={{
             padding: 0
           }}
@@ -81,17 +88,17 @@ const Penempatan = ({ auth, penempatans }) => {
         <Space>
           <Button
             shape="circle"
-            href={route('penempatan.show', { id })}
+            onClick={() => router.get(route('penempatan.show', { id }))}
             icon={<ExportOutlined />}
           />
           <Button
             shape="circle"
-            href={route('penempatan.edit', { id })}
+            onClick={() => router.get(route('penempatan.edit', { id }))}
             icon={<EditOutlined />}
           />
           <Button
             shape="circle"
-            href={route('penempatan.delete', { id })}
+            onClick={() => router.get(route('penempatan.delete', { id }))}
             icon={<DeleteOutlined />}
           />
         </Space>
@@ -118,7 +125,7 @@ const Penempatan = ({ auth, penempatans }) => {
               type="primary"
               size="small"
               icon={<PlusOutlined />}
-              href={route('penempatan.new')}
+              onClick={() => router.get(route('penempatan.new'))}
             >
               Tambah Penempatan
             </Button>

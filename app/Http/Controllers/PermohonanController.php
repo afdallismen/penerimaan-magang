@@ -112,7 +112,7 @@ class PermohonanController extends Controller
     {
         $permohonans = Permohonan::with('pemohon')->get()->toArray();
         $pdf = SnappyPdf::loadView('report_permohonan', ['permohonans' => $permohonans]);
-        return $pdf->download('laporan_permohonan.pdf');
+        return $pdf->download('laporan_permohonan_'.time().'.pdf');
         // return view('report_permohonan', ['permohonans' => $permohonans]);
     }
 }

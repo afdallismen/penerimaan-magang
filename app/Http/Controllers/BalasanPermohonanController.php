@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 
 class BalasanPermohonanController extends Controller
 {
@@ -143,8 +144,8 @@ class BalasanPermohonanController extends Controller
             ])
             ->get()
             ->toArray();
-        // $pdf = PDF::loadView('report_balasan_permohonan', $balasanPermohonans);
-        // return $pdf->download('laporan_balasan_permohonan_'.time().'.pdf');
-        return view('report_balasan_permohonan', ['balasanPermohonans' => $balasanPermohonans]);
+        $pdf = SnappyPdf::loadView('report_balasan_permohonan', ['balasanPermohonans' => $balasanPermohonans]);
+        return $pdf->download('laporan_balasan_permohonan_'.time().'.pdf');
+        // return view('report_balasan_permohonan', ['balasanPermohonans' => $balasanPermohonans]);
     }
 }
