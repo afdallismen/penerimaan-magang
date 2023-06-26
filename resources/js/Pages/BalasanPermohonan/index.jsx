@@ -24,6 +24,7 @@ const BalasanPermohonan = ({ auth, balasanPermohonans }) => {
     {
       title: 'Acc',
       dataIndex: 'acc',
+      align: 'center',
       render: (acc) => acc
         ? <CheckOutlined />
         : <MinusOutlined />
@@ -31,34 +32,10 @@ const BalasanPermohonan = ({ auth, balasanPermohonans }) => {
     {
       title: 'Dibuat oleh',
       dataIndex: ['author', 'name'],
-      render: (author) => (
-        <Button
-          type="link"
-          size="small"
-          onClick={() => router.get(author)}
-          style={{
-            padding: 0
-          }}
-        >
-          {author}
-        </Button>
-      )
     },
     {
       title: 'Diacc oleh',
       dataIndex: ['acced_by', 'name'],
-      render: (acc) => (
-        <Button
-          type="link"
-          size="small"
-          onClick={() => router.get(acc)}
-          style={{
-            padding: 0
-          }}
-        >
-          {acc}
-        </Button>
-      )
     },
     {
       title: 'Aksi',
@@ -119,7 +96,6 @@ const BalasanPermohonan = ({ auth, balasanPermohonans }) => {
       }
     >
       <Head title="Balasan Permohonan" />
-
       <div className="py-6">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 drop-shadow-sm">
           <Table

@@ -45,13 +45,11 @@ class BalasanPermohonanController extends Controller
         $penempatanChoices = Penempatan::all();
         $authorChoices = User::all();
         $accedByChoices = User::all();
-        $csrf = csrf_token();
         
         return Inertia::render('BalasanPermohonan/New', [
             'penempatanChoices' => $penempatanChoices,
             'authorChoices' => $authorChoices,
             'accedByChoices' => $accedByChoices,
-            'csrf' => $csrf,
         ]);
     }
 
@@ -88,7 +86,6 @@ class BalasanPermohonanController extends Controller
         $penempatanChoices = Penempatan::all();
         $authorChoices = User::all();
         $accedByChoices = User::all();
-        $csrf = csrf_token();
 
         return Inertia::render('BalasanPermohonan/Edit', [
             'balasanPermohonan' => $balasanPermohonan->load([
@@ -99,7 +96,6 @@ class BalasanPermohonanController extends Controller
             'penempatanChoices' => $penempatanChoices,
             'authorChoices' => $authorChoices,
             'accedByChoices' => $accedByChoices,
-            'csrf' => $csrf,
         ]);
     }
 

@@ -37,13 +37,11 @@ class PenempatanController extends Controller
         $permohonanChoices = Permohonan::all();
         $authorChoices = User::all();
         $accedByChoices = User::all();
-        $csrf = csrf_token();
         
         return Inertia::render('Penempatan/New', [
             'permohonanChoices' => $permohonanChoices,
             'authorChoices' => $authorChoices,
             'accedByChoices' => $accedByChoices,
-            'csrf' => $csrf,
         ]);
     }
 
@@ -78,7 +76,6 @@ class PenempatanController extends Controller
         $permohonanChoices = Permohonan::with('pemohon')->get();
         $authorChoices = User::all();
         $accedByChoices = User::all();
-        $csrf = csrf_token();
 
         return Inertia::render('Penempatan/Edit', [
             'penempatan' => $penempatan->load([
@@ -89,7 +86,6 @@ class PenempatanController extends Controller
             'permohonanChoices' => $permohonanChoices,
             'authorChoices' => $authorChoices,
             'accedByChoices' => $accedByChoices,
-            'csrf' => $csrf,
         ]);
     }
 

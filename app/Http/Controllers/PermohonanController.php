@@ -36,11 +36,9 @@ class PermohonanController extends Controller
     public function create(): Response
     {
         $pemohonChoices = User::all();
-        $csrf = csrf_token();
 
         return Inertia::render('Permohonan/New', [
             'pemohonChoices' => $pemohonChoices,
-            'csrf' => $csrf
         ]);
     }
 
@@ -69,12 +67,10 @@ class PermohonanController extends Controller
     public function edit(Permohonan $permohonan): Response
     {
         $pemohonChoices = User::all();
-        $csrf = csrf_token();
 
         return Inertia::render('Permohonan/Edit', [
             'permohonan' => $permohonan->load('pemohon'),
             'pemohonChoices' => $pemohonChoices,
-            'csrf' => $csrf,
         ]);
     }
 

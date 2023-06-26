@@ -44,6 +44,7 @@ const Penempatan = ({ auth, penempatans }) => {
     {
       title: 'Acc',
       dataIndex: 'acc',
+      align: 'center',
       render: (acc) => acc
         ? <CheckOutlined />
         : <MinusOutlined />
@@ -51,34 +52,10 @@ const Penempatan = ({ auth, penempatans }) => {
     {
       title: 'Dibuat oleh',
       dataIndex: ['author', 'name'],
-      render: (author) => (
-        <Button
-          type="link"
-          size="small"
-          onClick={() => router.get(author)}
-          style={{
-            padding: 0
-          }}
-        >
-          {author}
-        </Button>
-      )
     },
     {
       title: 'Diacc oleh',
       dataIndex: ['acced_by', 'name'],
-      render: (acc) => (
-        <Button
-          type="link"
-          size="small"
-          onClick={() => router.get(acc)}
-          style={{
-            padding: 0
-          }}
-        >
-          {acc}
-        </Button>
-      )
     },
     {
       title: 'Aksi',

@@ -30,7 +30,7 @@ export default function Dashboard({ auth, permohonan, penempatan, balasanPermoho
                                         <Typography.Text>Balasan permohonan belum di Acc Kepala Dinas.</Typography.Text>
                                     ) : (
                                         <>{permohonanHasBeenAcced && (
-                                            <Typography.Text>Permohonan anda telah di Acc. Balasan permohonan bisa anda download disini.</Typography.Text>
+                                            <Typography.Text>Permohonan anda telah di Acc. Surat balasan permohonan bisa anda download <a href={balasanPermohonan.filepath_surat}>disini</a>.</Typography.Text>
                                         )}
                                         </>
                                     )}

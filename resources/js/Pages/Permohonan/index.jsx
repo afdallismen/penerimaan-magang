@@ -8,16 +8,6 @@ const Permohonan = ({ auth, permohonans }) => {
     {
       title: 'Pemohon',
       dataIndex: ['pemohon', 'name'],
-      render: (name) => (
-        <Button
-          type="link"
-          size="small"
-          onClick={() => router.get(name)}
-          style={{ padding: 0 }}
-        >
-          {name}
-        </Button>
-      )
     },
     {
       title: 'Universitas',
